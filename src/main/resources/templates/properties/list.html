@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentify – Properties</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #333; }
+        header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 { font-size: 1.6rem; letter-spacing: 1px; }
+        .btn {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary { background: #3498db; color: #fff; }
+        .btn-primary:hover { background: #2980b9; }
+        .btn-success { background: #27ae60; color: #fff; }
+        .btn-success:hover { background: #219150; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .btn-warning:hover { background: #d68910; }
+        .btn-danger { background: #e74c3c; color: #fff; }
+        .btn-danger:hover { background: #c0392b; }
+        .container { max-width: 1100px; margin: 32px auto; padding: 0 16px; }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            padding: 24px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-header h2 { font-size: 1.3rem; color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f0f3f7; font-weight: 600; color: #555; font-size: .85rem; text-transform: uppercase; }
+        tr:hover td { background: #f9fbfd; }
+        .actions a { margin-right: 6px; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: .78rem;
+            font-weight: 600;
+            background: #eaf4fb;
+            color: #2980b9;
+        }
+        .empty { text-align: center; padding: 40px; color: #aaa; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏠 Rentify</h1>
+    <a class="btn btn-success" th:href="@{/properties/new}">+ Add Property</a>
+</header>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>All Properties</h2>
+            <span th:text="${#lists.size(properties)} + ' result(s)'" style="color:#888;font-size:.9rem;"></span>
+        </div>
+
+        <div th:if="${#lists.isEmpty(properties)}" class="empty">
+            <p>No properties found. <a th:href="@{/properties/new}">Add the first one!</a></p>
+        </div>
+
+        <table th:unless="${#lists.isEmpty(properties)}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>City</th>
+                    <th>Price ($/mo)</th>
+                    <th>Type</th>
+                    <th>Bedrooms</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p, stat : ${properties}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${p.title}"></td>
+                    <td th:text="${p.city}"></td>
+                    <td th:text="${'$' + #numbers.formatDecimal(p.price, 1, 2)}"></td>
+                    <td><span class="badge" th:text="${p.type}"></span></td>
+                    <td th:text="${p.bedrooms}"></td>
+                    <td class="actions">
+                        <a class="btn btn-primary" th:href="@{/properties/{id}(id=${p.id})}">Details</a>
+                        <a class="btn btn-warning" th:href="@{/properties/edit/{id}(id=${p.id})}">Edit</a>
+                        <a class="btn btn-danger"
+                           th:href="@{/properties/delete/{id}(id=${p.id})}"
+                           onclick="return confirm('Delete this property?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
