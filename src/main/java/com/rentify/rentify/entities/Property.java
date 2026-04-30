@@ -2,6 +2,7 @@ package com.rentify.rentify.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "properties")
@@ -35,6 +36,9 @@ public class Property {
     protected void onCreate() {
         this.createdAt = new Date();
     }
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     public Property() {
     }
@@ -117,5 +121,13 @@ public class Property {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
