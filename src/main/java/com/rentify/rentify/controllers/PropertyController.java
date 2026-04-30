@@ -1,6 +1,8 @@
 package com.rentify.rentify.controllers;
 
 import com.rentify.rentify.entities.Property;
+import com.rentify.rentify.entities.Review;
+import com.rentify.rentify.repos.ReviewRepository;
 import com.rentify.rentify.service.PropertyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class PropertyController {
 
     private final PropertyService propertyService;
+    private final ReviewRepository reviewRepository;
 
-    public PropertyController(PropertyService propertyService) {
+    public PropertyController(PropertyService propertyService, ReviewRepository reviewRepository) {
         this.propertyService = propertyService;
+        this.reviewRepository = reviewRepository;
     }
 
     // GET /properties — list all properties
@@ -66,7 +70,26 @@ public class PropertyController {
     // GET /properties/{id} — property details
     @GetMapping("/{id}")
     public String propertyDetails(@PathVariable Long id, Model model) {
-        model.addAttribute("property", propertyService.getPropertyById(id));
+        Property property = propertyService.getPropertyById(id);
+        model.addAttribute("property", property);
+        model.addAttribute("reviews", reviewRepository.findByPropertyId(id));
         return "properties/details";
+    }
+
+    // GET /properties/{id}/reviews/new — show review form
+    @GetMapping("/{id}/reviews/new")
+    public String showReviewForm(@PathVariable Long id, Model model) {
+        model.addAttribute("property", propertyService.getPropertyById(id));
+        model.addAttribute("review", new Review());
+        return "reviews/form";
+    }
+
+    // POST /properties/{id}/reviews/save — save review
+    @PostMapping("/{id}/reviews/save")
+    public String saveReview(@PathVariable Long id, @ModelAttribute Review review) {
+        Property property = propertyService.getPropertyById(id);
+        review.setProperty(property);
+        reviewRepository.save(review);
+        return "redirect:/properties/" + id;
     }
 }

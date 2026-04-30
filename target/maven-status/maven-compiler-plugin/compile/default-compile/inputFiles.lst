@@ -1,0 +1,10 @@
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/service/PropertyService.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/repos/PropertyRepository.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/service/PropertyServiceImpl.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/controllers/PropertyController.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/entities/Property.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/controllers/PropertyRestController.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/controllers/ReviewRestController.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/entities/Review.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/repos/ReviewRepository.java
+/home/runner/work/renteme/renteme/src/main/java/com/rentify/rentify/RentifyApplication.java
